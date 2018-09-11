@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fintech.dubbo.dao.ExamUserDao">
+
+	<resultMap id="BaseResultMap" type="ExamUser">
+		<id column="ID" property="id" jdbcType="NUMERIC" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="VALID_FLAG" property="validFlag" jdbcType="VARCHAR" />
+		<result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+		<result column="CREATED_TS" property="createdTs" jdbcType="TIMESTAMP" />
+		<result column="LAST_UPD_BY" property="lastUpdBy" jdbcType="VARCHAR" />
+		<result column="LAST_UPD_TS" property="lastUpdTs" jdbcType="TIMESTAMP" />
+		<result column="MODI_NUM" property="modiNum" jdbcType="NUMERIC" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID,
+		USER_NAME,
+		NICK_NAME,
+		PASSWORD,
+		VALID_FLAG,
+		CREATED_BY,
+		CREATED_TS,
+		LAST_UPD_BY,
+		LAST_UPD_TS,
+		MODI_NUM
+	</sql>
+	
+	<select id="get" parameterType="long" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EXAM_USER
+		where ID = #{id,jdbcType=NUMERIC} 
+		AND VALID_FLAG = '1'
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EXAM_USER 
+	</select>
+	
+	<select id="findUserByUserName" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EXAM_USER
+		where USER_NAME = #{userName,jdbcType=VARCHAR} 
+		AND VALID_FLAG = '1'
+	</select>
+	
+	<!-- 
+	<select id="queryExamUserList" parameterType="ExamUserPageEntity" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM EXAM_USER
+		<where>
+			<if test="userName != null and userName != ''">
+				AND USER_NAME LIKE '%${userName}%'
+			</if>
+			<if test="nickName != null and nickName != ''">
+				AND NICK_NAME LIKE '%${nickName}%'
+			</if>
+			AND VALID_FLAG = '1'
+		</where>
+	</select>
+	-->
+	
+	<insert id="save" parameterType="ExamUser">
+		insert into EXAM_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="nickName != null">
+				NICK_NAME,
+			</if>
+			<if test="password != null">
+				PASSWORD,
+			</if>
+			<if test="validFlag != null">
+				VALID_FLAG,
+			</if>
+			<if test="createdBy != null">
+				CREATED_BY,
+			</if>
+			CREATED_TS,
+			<if test="lastUpdBy != null">
+				LAST_UPD_BY,
+			</if>
+			LAST_UPD_TS,
+			MODI_NUM,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null">
+				#{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="validFlag != null">
+				#{validFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="createdBy != null">
+				#{createdBy,jdbcType=VARCHAR},
+			</if>
+			now(),
+			<if test="lastUpdBy != null">
+				#{lastUpdBy,jdbcType=VARCHAR},
+			</if>
+			now(),
+			0
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="ExamUser">
+		update EXAM_USER
+		<set>
+			<if test="userName != null">USER_NAME = #{userName,jdbcType=VARCHAR},</if>
+			<if test="nickName != null">NICK_NAME = #{nickName,jdbcType=VARCHAR},</if>
+			<if test="validFlag != null">VALID_FLAG= #{validFlag,jdbcType=VARCHAR},</if>
+			<if test="lastUpdBy != null">LAST_UPD_BY = #{lastUpdBy,jdbcType=VARCHAR},</if>
+			LAST_UPD_TS = now(),
+			MODI_NUM = MODI_NUM+1
+		</set>
+		where ID = #{id,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="delete" parameterType="long">
+		delete from EXAM_USER
+		where ID = #{id,jdbcType=NUMERIC}
+	</delete>
+</mapper>

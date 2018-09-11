@@ -2,6 +2,7 @@ package com.fintech.dubbo;
 
 import java.util.concurrent.CountDownLatch;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
 
 @SpringBootApplication
 @DubboComponentScan(basePackages = "com.fintech.dubbo")
+@MapperScan("com.fintech.dubbo.dao")
 public class DubboProviderApplication {
 
 	public static void main(String[] args) {

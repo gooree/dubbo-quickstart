@@ -37,6 +37,8 @@ public class DubboConsumerConfiguration {
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(properties.getRegistry().getAddress());
         registryConfig.setClient(properties.getRegistry().getClient());
+        registryConfig.setProtocol(properties.getRegistry().getProtocol());
+        registryConfig.setPort(properties.getRegistry().getPort());
         return registryConfig;
     }
     

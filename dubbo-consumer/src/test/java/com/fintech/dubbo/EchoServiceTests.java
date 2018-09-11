@@ -11,9 +11,9 @@ import com.fintech.dubbo.service.EchoService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DubboConsumerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class DubboConsumerApplicationTests {
+public class EchoServiceTests {
 
-	@Reference
+	@Reference(version = "1.0.0", group = "dev", interfaceClass = com.fintech.dubbo.service.EchoService.class, timeout = 300, retries = 3, actives = 0)
 	private EchoService echoService;
 	
 	@Test
